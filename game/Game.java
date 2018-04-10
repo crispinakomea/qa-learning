@@ -5,80 +5,71 @@ import java.util.Scanner;
 public class Game {
 
 	private static final int GRID_SIZE;
-	private static final String TREASURE;
 
-	private final int[][] treasurePosition;
-	private Grid grid;
+	private Treasure treasure;
+	private Map grid;
 	private Compass compass;
 	private Player player;
 
 	private final Scanner scanner;
 
 	static {
-		GRID_SIZE = 5;
-		TREASURE = "@";
+		GRID_SIZE = 10;
 	}
 
 	public Game() {
-		grid = new Grid(GRID_SIZE);
-		treasurePosition = new int[][] { { getRandomPosition() }, { getRandomPosition() }, };
-		grid.addItem(TREASURE, treasurePosition);
-		compass = new Compass(treasurePosition);
-		player = new Player("Ruphus", compass, new int[][] { { 0 }, { 0 }, });
+		treasure = new Treasure(new int[][] { { getRandomPosition() }, { getRandomPosition() }, });
+		compass = new Compass(treasure.getPosition());
+		grid = new Map(GRID_SIZE, treasure.getPosition());
+		player = new Player(compass, new int[][] { { GRID_SIZE / 2 }, { GRID_SIZE / 2 }, });
 		compass.setDistance(player.getPosition());
+		grid.addItem(Player.SYMBOL, player.getPosition());
 		scanner = new Scanner(System.in);
 	}
 
 	public void start() {
-		startGame();
+		PrintUtil.printNewLine("!!!THE ADVENTURE OF BARREN MOOR!!!");
+		help();
 		while (!(compass.getDistance() == 0.0)) {
-			switch (scanner.nextLine().toLowerCase()) {
-			case "move":
-				printMessage("Enter the direction you want to move");
-				player.move(scanner.nextLine());
-				break;
-			case "check":
+			String input = scanner.nextLine().toLowerCase();
+			switch (input) {
+			case "m":
+				grid.showMap();
+				PrintUtil.print("Make a move");
+				PrintUtil.print(">");
+			case "c":
 				player.checkCompass();
+				PrintUtil.print("Make a move");
+				PrintUtil.print(">");
 				break;
 			case "help":
 				help();
 				break;
-			case "exit":
+			case "q":
+				PrintUtil.newLinePrint("!!!THANKS FOR PLAYING, GOODBYE!!!");
 				System.exit(0);
 				break;
 			default:
-				printMessage("Invalid input");
+				grid.removeItem(Player.SYMBOL, player.getPosition());
+				player.move(input);
+				grid.addItem(Player.SYMBOL, player.getPosition());
+				PrintUtil.print("Make a move");
+				PrintUtil.print(">");
 				break;
 			}
 		}
-		System.out.println("CONGRATULATIONS, " + player.getName().toUpperCase() + " YOU HAVE FOUND THE TREASURE");
-	}
-
-	private void startGame() {
-		System.out.println("THE ADVENTURE OF BARREN MOOR\n");
-		printMessage("Grey foggy clouds float oppressively close to you, reflected in the murky grey water.");
-		printMessage("Some black plants barely poke out of the shallow water.\n");
-		makePlayerDoSomething("look");
-		printMessage("\nIs there anyone else out here. Maybe you could find out?");
-		makePlayerDoSomething("help");
-		help();
+		PrintUtil.newLinePrint("!!!CONGRATULATIONS, YOU HAVE FOUND THE TREASURE!!!");
 	}
 
 	private void help() {
-		printMessage("\nmove - will move yout player in the specified direction");
-		printMessage("check - this command will tell you how far you are distance from the treasure");
-		printMessage("exit - this command will end the game");
-		printMessage("\nMake a move");
-	}
-
-	private void makePlayerDoSomething(String action) {
-		do {
-			printMessage("Try \"" + action + "\"");
-		} while (!scanner.nextLine().toLowerCase().equals(action.toLowerCase()));
-	}
-
-	private void printMessage(String message) {
-		System.out.println(message);
+		PrintUtil.print("HELP");
+		PrintUtil.print("[m]ap \t\t- to view the map if your in the mood for cheating");
+		PrintUtil.print("[d]irection \t- will move your player in the specified \"direction\"");
+		PrintUtil.print("\t\t- n for north, s for south, e for east, w for west");
+		PrintUtil.print("[c]heck \t\t- this command will tell you how far you are distance from the treasure");
+		PrintUtil.printNewLine("[q]uit \t\t- this command will end the game");
+		PrintUtil.print("Make a move");
+		PrintUtil.print(">");
 	}
 
 	private int getRandomPosition() {
