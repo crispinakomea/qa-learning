@@ -19,6 +19,7 @@ public class Player {
 
 	public void checkCompass() {
 		System.out.printf("The dial reads '%.3fm'", compass.getDistance());
+		System.out.println("\n");
 	}
 
 	public int[][] getPosition() {
@@ -30,18 +31,22 @@ public class Player {
 		case "north":
 			position[1][0]++;
 			compass.setDistance(position);
+			checkCompass();
 			break;
 		case "east":
 			position[0][0]++;
 			compass.setDistance(position);
+			checkCompass();
 			break;
 		case "south":
 			position[1][0]--;
 			compass.setDistance(position);
+			checkCompass();
 			break;
 		case "west":
 			position[0][0]--;
 			compass.setDistance(position);
+			checkCompass();
 			break;
 		default:
 			break;
