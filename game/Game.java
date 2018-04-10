@@ -14,7 +14,7 @@ public class Game {
 	private final Scanner scanner;
 
 	static {
-		GRID_SIZE = 10;
+		GRID_SIZE = 11;
 	}
 
 	public Game() {
@@ -73,7 +73,9 @@ public class Game {
 	}
 
 	private int getRandomPosition() {
-		return (int) (Math.random() * GRID_SIZE);
+		int random = (int) (Math.random() * GRID_SIZE);
+		System.out.println(random);
+		return random;
 	}
 
 }

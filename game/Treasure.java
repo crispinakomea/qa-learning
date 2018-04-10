@@ -17,4 +17,9 @@ public class Treasure {
 		return position;
 	}
 
+	@Override
+	public String toString() {
+		return "Treasure [position=[" + position[0][0] + "," + position[1][0] + "]]";
+	}
+
 }

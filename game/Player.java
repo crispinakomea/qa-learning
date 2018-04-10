@@ -68,7 +68,7 @@ public class Player {
 
 	@Override
 	public String toString() {
-		return "Player [position=[" + position[0][0] + "," + position[1][0] + "]]";
+		return "Player [compass=" + compass + ", position=[" + position[0][0] + "," + position[1][0] + "]]";
 	}
 
 }
