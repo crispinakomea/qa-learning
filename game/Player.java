@@ -3,15 +3,22 @@ package game;
 public class Player {
 
 	private final String name;
+	private final Compass compass;
 	private int[][] position;
 
-	public Player(String name, int[][] centrePosition) {
+	public Player(String name, Compass compass, int[][] position) {
 		this.name = name;
-		position = centrePosition;
+		this.compass = compass;
+		compass.setDistance(position);
+		this.position = position;
 	}
 
 	public String getName() {
 		return name;
+	}
+
+	public void checkCompass() {
+		System.out.printf("The dial reads '%.3fm'", compass.getDistance());
 	}
 
 	public int[][] getPosition() {
@@ -22,15 +29,19 @@ public class Player {
 		switch (direction) {
 		case "north":
 			position[1][0]++;
+			compass.setDistance(position);
 			break;
 		case "east":
 			position[0][0]++;
+			compass.setDistance(position);
 			break;
 		case "south":
 			position[1][0]--;
+			compass.setDistance(position);
 			break;
 		case "west":
 			position[0][0]--;
+			compass.setDistance(position);
 			break;
 		default:
 			break;
