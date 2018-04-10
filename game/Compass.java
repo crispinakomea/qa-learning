@@ -19,4 +19,10 @@ public class Compass {
 		distance = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
 	}
 
+	@Override
+	public String toString() {
+		return "Compass [treasurePosition=[" + treasurePosition[0][0] + "," + treasurePosition[1][0] + "], distance="
+				+ distance + "]";
+	}
+
 }
