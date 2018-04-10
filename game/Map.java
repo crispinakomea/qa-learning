@@ -1,17 +1,19 @@
 package game;
 
-public class Grid {
+public class Map {
 
 	private static final String EMPTY_CELL;
-	String[][] grid;
+
+	private final String[][] grid;
 
 	static {
-		EMPTY_CELL = "'";
+		EMPTY_CELL = "|   |";
 	}
 
-	public Grid(int size) {
+	public Map(int size, int[][] treasurePosition) {
 		grid = new String[size][size];
 		initialize();
+		addItem(Treasure.SYMBOL, treasurePosition);
 	}
 
 	private void initialize() {
@@ -26,12 +28,11 @@ public class Grid {
 		grid[position[0][0]][position[1][0]] = item;
 	}
 
-	public void moveItem(String item, int[][] oldPosition, int[][] newPosition) {
-		grid[oldPosition[0][0]][oldPosition[1][0]] = EMPTY_CELL;
-		grid[newPosition[0][0]][newPosition[1][0]] = item;
+	public void removeItem(String item, int[][] position) {
+		grid[position[0][0]][position[1][0]] = EMPTY_CELL;
 	}
 
-	public void showGrid() {
+	public void showMap() {
 		for (String[] row : grid) {
 			for (String value : row) {
 				System.out.print(value + "\t");
